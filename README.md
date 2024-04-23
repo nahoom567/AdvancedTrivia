@@ -1,5 +1,5 @@
 # Trivia_Itay_Nir
-This porject is an advanced trivia project.
+This project is an advanced trivia project.
 This is not just any normal trivia game, but includes GUI, login and signup, databases to store information, rooms to play the game in and a lot more explained in the features.
 This project has been emigrated and thus does not include all the original branches, only the important ones.
 Main includes the parts of it that work perfectly, and Feature/4.0.0 includes some parts that have a couple of issus (it does run and work mostly just not fully).
