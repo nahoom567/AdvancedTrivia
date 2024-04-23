@@ -9,10 +9,17 @@ This is how the architecture of the Project looks like: https://app.diagrams.net
 
 # Features
 This project includes many features and parts:
+
 Multithreaded Server
+
 Serialization and Deserialization between server and clients
+
 DB to store the information of the players and stats
+
 LoginManager which takes care of the login and signup process
-RoomManager and GameManager that cordinate with one another to handle the creation of rooms and games (every room can only contain one game until its completion)
-StatisticsManager which is responsible for collecting stats about the game and players.
-and a lot more
+
+RoomManager and GameManager that cordinate with one another to handle the creation of rooms and games (every room can only contain one game until its completion).
+
+StatisticsManager which is responsible for collecting stats about the game and players and a lot more features.
+
+This entire project is done using C++ and C for the server and C# for the GUI.
