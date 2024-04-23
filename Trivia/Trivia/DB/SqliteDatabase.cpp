@@ -305,7 +305,7 @@ void SqliteDatabase::createStatsTable()
 
 std::list<Question> SqliteDatabase::getQuestions(const int& numQuestions)
 {
-	std::string query = "SELECT * FROM QUESTIONS";
+	std::string query = "SELECT * FROM QUESTIONS;";
 	std::list<Question> questions;
 	int i = 0;
 
@@ -315,13 +315,14 @@ std::list<Question> SqliteDatabase::getQuestions(const int& numQuestions)
 		std::string firAns = argv[2];
 		std::string secAns = argv[3];
 		std::string thirdAns = argv[4];
-		std::string fourthAns = argv[4];
+		std::string fourthAns = argv[5];
+		int ansId = std::stoi(argv[6]);
 		std::vector<std::string> ans;
 		ans.push_back(firAns);
 		ans.push_back(secAns);
 		ans.push_back(thirdAns);
 		ans.push_back(fourthAns);
-		questions->push_back(*new Question(que, ans));
+		questions->push_back(*new Question(que, ans, ansId));
 		return 0;
 	};
 

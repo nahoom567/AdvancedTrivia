@@ -2,7 +2,7 @@
 #include "RequestHandlerFactory.h"
 
 RequestHandlerFactory::RequestHandlerFactory(IDataBase* database) : m_database(database), 
-m_loginManager(*(new LoginManager(database))), m_statsManager(*(new StatisticsManager())), m_roomManager(*(new RoomManager()))
+m_loginManager(*(new LoginManager(database))), m_statsManager(*(new StatisticsManager())), m_roomManager(*(new RoomManager())), m_gameManager(database)
 {
 }
 
@@ -49,5 +49,25 @@ RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(co
 
 RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const LoggedUser& logUser, const Room& room)
 {
-     return new RoomMemberRequestHandler(room.getData().id, logUser, m_roomManager, *this);
+    return new RoomMemberRequestHandler(room.getData().id, logUser, m_roomManager, *this);
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser& logUser)
+{
+    // getting game from logged user
+    for (auto& game : m_gameManager.getGames())
+    {
+        for (const auto& player : game.getPlayers()) 
+        {
+            if (player.first.getUsername() == logUser.getUsername())
+            {
+                return new GameRequestHandler(game, logUser, m_gameManager, *this);
+            }
+        }
+    }
+}
+
+GameManager& RequestHandlerFactory::getGameManager()
+{
+    return m_gameManager;
 }

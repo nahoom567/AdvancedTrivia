@@ -30,11 +30,12 @@ void RoomManager::deleteRoom(int ID)
 
 unsigned int RoomManager::getRoomState(int ID) const
 {
-	for (auto room = m_rooms.begin(); room != m_rooms.end(); room++)
+	for(const auto& room : m_rooms)
 	{
-		if (room->first == ID)
+		if ((int)(room.first) == ID)
 		{
-			return room->second.getData().isActive;
+			int i = room.second.getData().isActive;
+			return i;
 		}
 	}
 	return 0;

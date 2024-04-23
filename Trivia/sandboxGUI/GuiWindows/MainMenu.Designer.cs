@@ -32,6 +32,8 @@
             this.startingPanel = new System.Windows.Forms.Panel();
             this.joinRoomPanel = new System.Windows.Forms.Panel();
             this.showPlayersInRoom = new System.Windows.Forms.Panel();
+            this.startGame = new System.Windows.Forms.Button();
+            this.close_leaveRoom = new System.Windows.Forms.Button();
             this.timePerQuestion = new System.Windows.Forms.Label();
             this.numOfQuestion = new System.Windows.Forms.Label();
             this.personalStatsPanel = new System.Windows.Forms.Panel();
@@ -60,7 +62,6 @@
             this.usernameLabel = new System.Windows.Forms.Label();
             this.exitButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.close_leaveRoom = new System.Windows.Forms.Button();
             this.startingPanel.SuspendLayout();
             this.joinRoomPanel.SuspendLayout();
             this.showPlayersInRoom.SuspendLayout();
@@ -95,6 +96,7 @@
             // 
             // showPlayersInRoom
             // 
+            this.showPlayersInRoom.Controls.Add(this.startGame);
             this.showPlayersInRoom.Controls.Add(this.close_leaveRoom);
             this.showPlayersInRoom.Controls.Add(this.timePerQuestion);
             this.showPlayersInRoom.Controls.Add(this.numOfQuestion);
@@ -105,6 +107,30 @@
             this.showPlayersInRoom.Name = "showPlayersInRoom";
             this.showPlayersInRoom.Size = new System.Drawing.Size(604, 450);
             this.showPlayersInRoom.TabIndex = 5;
+            // 
+            // startGame
+            // 
+            this.startGame.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(30)))), ((int)(((byte)(54)))));
+            this.startGame.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(249)))));
+            this.startGame.Location = new System.Drawing.Point(293, 233);
+            this.startGame.Name = "startGame";
+            this.startGame.Size = new System.Drawing.Size(181, 66);
+            this.startGame.TabIndex = 9;
+            this.startGame.Text = "Start Game";
+            this.startGame.UseVisualStyleBackColor = false;
+            this.startGame.Click += new System.EventHandler(this.startGame_Click);
+            // 
+            // close_leaveRoom
+            // 
+            this.close_leaveRoom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(30)))), ((int)(((byte)(54)))));
+            this.close_leaveRoom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(249)))));
+            this.close_leaveRoom.Location = new System.Drawing.Point(293, 148);
+            this.close_leaveRoom.Name = "close_leaveRoom";
+            this.close_leaveRoom.Size = new System.Drawing.Size(181, 66);
+            this.close_leaveRoom.TabIndex = 8;
+            this.close_leaveRoom.Text = "close/Leave Room";
+            this.close_leaveRoom.UseVisualStyleBackColor = false;
+            this.close_leaveRoom.Click += new System.EventHandler(this.close_leaveRoom_Click);
             // 
             // timePerQuestion
             // 
@@ -129,9 +155,9 @@
             // personalStatsPanel
             // 
             this.personalStatsPanel.Controls.Add(this.createRoomPanel);
-            this.personalStatsPanel.Location = new System.Drawing.Point(3, 1);
+            this.personalStatsPanel.Location = new System.Drawing.Point(-3, 1);
             this.personalStatsPanel.Name = "personalStatsPanel";
-            this.personalStatsPanel.Size = new System.Drawing.Size(604, 445);
+            this.personalStatsPanel.Size = new System.Drawing.Size(610, 445);
             this.personalStatsPanel.TabIndex = 1;
             // 
             // createRoomPanel
@@ -147,9 +173,9 @@
             this.createRoomPanel.Controls.Add(this.roomNameBox);
             this.createRoomPanel.Controls.Add(this.createRoomInServerButton);
             this.createRoomPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.createRoomPanel.Location = new System.Drawing.Point(10, 0);
+            this.createRoomPanel.Location = new System.Drawing.Point(0, 0);
             this.createRoomPanel.Name = "createRoomPanel";
-            this.createRoomPanel.Size = new System.Drawing.Size(594, 445);
+            this.createRoomPanel.Size = new System.Drawing.Size(610, 445);
             this.createRoomPanel.TabIndex = 3;
             // 
             // statisticPanel
@@ -157,9 +183,9 @@
             this.statisticPanel.Controls.Add(this.HighScoresStats);
             this.statisticPanel.Controls.Add(this.personalStats);
             this.statisticPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.statisticPanel.Location = new System.Drawing.Point(3, 0);
+            this.statisticPanel.Location = new System.Drawing.Point(0, 0);
             this.statisticPanel.Name = "statisticPanel";
-            this.statisticPanel.Size = new System.Drawing.Size(591, 445);
+            this.statisticPanel.Size = new System.Drawing.Size(610, 445);
             this.statisticPanel.TabIndex = 4;
             // 
             // HighScoresStats
@@ -434,18 +460,6 @@
             this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 2;
             // 
-            // close_leaveRoom
-            // 
-            this.close_leaveRoom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(30)))), ((int)(((byte)(54)))));
-            this.close_leaveRoom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(249)))));
-            this.close_leaveRoom.Location = new System.Drawing.Point(293, 148);
-            this.close_leaveRoom.Name = "close_leaveRoom";
-            this.close_leaveRoom.Size = new System.Drawing.Size(181, 66);
-            this.close_leaveRoom.TabIndex = 8;
-            this.close_leaveRoom.Text = "close/Leave Room";
-            this.close_leaveRoom.UseVisualStyleBackColor = false;
-            this.close_leaveRoom.Click += new System.EventHandler(this.close_leaveRoom_Click);
-            // 
             // TriviaMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -510,5 +524,6 @@
         private System.Windows.Forms.Label numOfQuestion;
         private System.Windows.Forms.Label timePerQuestion;
         protected System.Windows.Forms.Button close_leaveRoom;
+        protected System.Windows.Forms.Button startGame;
     }
 }

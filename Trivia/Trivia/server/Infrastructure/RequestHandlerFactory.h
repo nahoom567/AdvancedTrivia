@@ -7,11 +7,14 @@
 #include "server/Handles/RoomAdminRequestHandler.h"
 #include "server/Handles/RoomMemberRequestHandler.h"
 #include "Managers/Login/LoggedUser.h"
+#include "server/Handles/GameRequestHandler.h"
+
 
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomAdminRequestHandler;
 class RoomMemberRequestHandler;
+class GameRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -25,11 +28,14 @@ public:
 	RoomManager& getRoomManager();
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(const LoggedUser& logUser, const Room& room);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(const LoggedUser& logUser, const Room& room);
+	GameRequestHandler* createGameRequestHandler(LoggedUser& logUser);
+	GameManager& getGameManager();
 
 private:
 	IDataBase* m_database;
 	LoginManager m_loginManager;
 	StatisticsManager m_statsManager;
 	RoomManager m_roomManager;
+	GameManager m_gameManager;
 };
 

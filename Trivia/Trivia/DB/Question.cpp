@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Question.h"
 
-Question::Question(std::string que, std::vector<std::string> possAns) : m_question(que), m_possibleAnswers(possAns)
+Question::Question(std::string que, std::vector<std::string> possAns, int ansId) : m_question(que), m_possibleAnswers(possAns), ansId(ansId)
 {
 
 }
@@ -18,6 +18,5 @@ std::vector<std::string> Question::getPossibleAnswers() const
 
 int Question::getCorrectAnswerId()
 {
-    // understand what is it
-    return 0;
+    return ansId;
 }

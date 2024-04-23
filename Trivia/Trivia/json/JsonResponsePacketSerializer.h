@@ -21,7 +21,11 @@ namespace ResponseCode
 		closeRoom = 11,
 		startGame = 12,
 		getRoomState = 13,
-		leaveRoom = 14
+		leaveRoom = 14,
+		leaveGame = 15,
+		getQuestions = 16,
+		submitAnswers = 17,
+		getGameResults = 18,
 	};
 }
 
@@ -46,9 +50,12 @@ public:
 	static std::vector<unsigned char> serializeResponse(const StartGameResponse& response);
 	static std::vector<unsigned char> serializeResponse(const GetRoomStateResponse& response);
 	static std::vector<unsigned char> serializeResponse(const LeaveRoomResponse& response);
+	static std::vector<unsigned char> serializeResponse(const GetGameResultsResponse& response);
+	static std::vector<unsigned char> serializeResponse(const SubmitAnswerResponse& response);
+	static std::vector<unsigned char> serializeResponse(const GetQuestionResponse& response);
+	static std::vector<unsigned char> serializeResponse(const LeaveGameResponse& response);
 
 private:
 	static inline std::vector<unsigned char> getBuff(const nlohmann::json& data, const int code);
 	static inline std::vector<unsigned char> serializeStatusOnlyResponse(int status, int code);
 };
-

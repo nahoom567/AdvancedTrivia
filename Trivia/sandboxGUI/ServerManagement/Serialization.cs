@@ -19,7 +19,6 @@ namespace sandboxGUI
     {
         public enum ResponseCode
         {
-            error = 1,
             login = 2,
             signup = 3,
             logout = 4,
@@ -32,7 +31,11 @@ namespace sandboxGUI
             closeRoom = 11,
             startGame = 12,
             getRoomState = 13,
-            leaveRoom = 14
+            leaveRoom = 14,
+            leaveGame = 15,
+            getQuestions = 16,
+            submitAnswers = 17,
+            getGameResults = 18
         };
 
         public static byte[] serialize(String data, int code)
@@ -79,8 +82,11 @@ namespace sandboxGUI
             { 8, typeof(CreateRoomResponse) },
             { 9, typeof(getHighScoreResponse) },
             { 10, typeof(getPersonalStatsResponse) },
+            { 12, typeof(StartGameResponse) },
             { 13, typeof(GetRoomStateResponse)},
             { 14, typeof(LeaveRoomResponse) },
+            { 16, typeof(GetQuestionResponse) },
+            { 17, typeof(SubmitAnswerResponse) }
         };
         private const int protocolCodeLength = 1;
         private const int protocolMsgSizeLength = 4;

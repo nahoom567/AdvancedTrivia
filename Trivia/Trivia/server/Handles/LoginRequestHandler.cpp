@@ -13,7 +13,6 @@ LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory) 
 
 LoginRequestHandler::~LoginRequestHandler()
 {
-	// delete this;
 }
 
 bool LoginRequestHandler::isRequestRelevant(const RequestInfo& reqInfo)
@@ -46,8 +45,6 @@ RequestResult LoginRequestHandler::login(RequestInfo reqInfo)
 	// incase of an error:
 	std::vector<unsigned char> response = JsonResponsePacketSerializer::serializeResponse(ErrorResponse(LOGIN_ERROR));
 	return RequestResult(response, this);
-	
-	
 }
 
 RequestResult LoginRequestHandler::signup(RequestInfo reqInfo)
@@ -58,7 +55,6 @@ RequestResult LoginRequestHandler::signup(RequestInfo reqInfo)
 
 	if (resp)
 	{
-		// delete this;
 		return RequestResult(JsonResponsePacketSerializer::serializeResponse(SignupResponse(resp)), m_handlerFactory.createMenuRequestFactory(LoggedUser(signRequest.username)));
 	}
 

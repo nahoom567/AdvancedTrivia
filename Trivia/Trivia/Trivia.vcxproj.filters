@@ -96,6 +96,15 @@
     <ClInclude Include="server\Handles\RoomMemberRequestHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Managers\Game\GameManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Game\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="server\Handles\GameRequestHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="server\Handles\LoginRequestHandler.cpp">
@@ -162,6 +171,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="server\Handles\RoomMemberRequestHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Game\GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Game\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="server\Handles\GameRequestHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

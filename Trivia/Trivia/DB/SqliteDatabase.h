@@ -59,9 +59,11 @@ public:
 	int getNumOfPlayerGames(const std::string& userName) override; 
 
 	// the record table
-	std::vector<std::string> getHighScores();
+	std::vector<std::string> getHighScores() override;
 	// personal stats of the user (for now assumed to be score and number of correct answers)
-	std::vector<std::string> getUserStatistics(const std::string& username);
+	std::vector<std::string> getUserStatistics(const std::string& username) override;
+
+	
 
 private:
 	void addTables();

@@ -93,12 +93,11 @@ inline RequestResult MenuRequestHandler::handleJoinRoom(const std::vector<unsign
 		res = false;
 	}
 
-	// to make sure we deleting the old request;
+	// to make sure we deleting the old request
 	if (res)
 	{
 		handleRequest = m_handlerFactory.createRoomMemberRequestHandler(m_user, 
 			m_handlerFactory.getRoomManager().getRoom(roomReq.roomId));
-		// delete this;
 	}
 	return RequestResult(JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse(res)), handleRequest);
 }

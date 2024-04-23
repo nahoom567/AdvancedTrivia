@@ -7,7 +7,7 @@
 
 Communicator::Communicator(bool& stop) : m_handlerFactory(*(new RequestHandlerFactory(new SqliteDatabase("database")))), m_stopServer(stop)
 {
-	
+
 }
 
 Communicator::~Communicator()
@@ -68,7 +68,7 @@ void Communicator::acceptClient()
 		}
 	}
 
-	for(auto& thread : threadVect)
+	for (auto& thread : threadVect)
 	{
 		thread.join();
 	}
@@ -77,7 +77,7 @@ void Communicator::acceptClient()
 void Communicator::handleNewClient(const SOCKET& socket)
 {
 	static int count = 0;
-	count ++;
+	count++;
 	std::cout << "New client connected[" << count << ']' << std::endl;
 
 	// making the LoginRequestHandler the current handler:
@@ -98,7 +98,15 @@ void Communicator::handleNewClient(const SOCKET& socket)
 		{
 			u_long blocking = 0;
 			ioctlsocket(socket, FIONBIO, &blocking);
-			handleClientInput(socket);
+
+			try
+			{
+				handleClientInput(socket);
+			}
+			catch(std::exception e)
+			{
+				e.what();
+			}
 		}
 	}
 	std::cout << "The client disconnected[" << count << ']' << std::endl;
@@ -106,7 +114,6 @@ void Communicator::handleNewClient(const SOCKET& socket)
 
 void Communicator::handleClientInput(const SOCKET& socket)
 {
-	// static int roomId = 0;
 	static std::list<IRequestHandler*> requestList;
 	
 	std::vector<uint8_t> vec_responseToUser;
@@ -124,11 +131,9 @@ void Communicator::handleClientInput(const SOCKET& socket)
 
 	// creating the request info:
 	RequestInfo rInfo = RequestInfo(code, std::time(nullptr), buffer);
-	
+
 	if (requestHandler->isRequestRelevant(rInfo))
 	{
-		bool isRoomRequestHandler = dynamic_cast<RoomAdminRequestHandler*>(requestHandler);
-		bool isMenuRequestHandler = dynamic_cast<MenuRequestHandler*>(requestHandler);
 		RequestResult rResult = requestHandler->handleRequest(rInfo);
 		vec_responseToUser = rResult._response;
 
@@ -137,25 +142,6 @@ void Communicator::handleClientInput(const SOCKET& socket)
 			delete requestHandler;
 			requestHandler = rResult._newHandler;
 		}
-
-		// checking if the player created a room and getting the roomId:
-		// if (isMenuRequestHandler && dynamic_cast<RoomAdminRequestHandler*>(requestHandler))
-		// {
-		// 	roomId = JsonResponsePacketDeserializer::deserializeCreateRoomResponse(rResult._response);
-		// }
-
-		// checking if the player closed the room:
-		//else if (isRoomRequestHandler && dynamic_cast<MenuRequestHandler*>(requestHandler))
-		//{
-		//	roomGotClosed(rInfo, roomId);
-		//}
-	}
-	// in the case of admin connection for refresh screen work:
-	else if (rInfo.id == RequestCode::admin)
-	{
-		delete requestHandler;
-		requestHandler = m_handlerFactory.createMenuRequestFactory(LoggedUser("admin"));
-		return;
 	}
 	else
 	{
@@ -169,10 +155,33 @@ void Communicator::handleClientInput(const SOCKET& socket)
 
 void Communicator::roomGotClosed(RequestInfo& rInfo, int roomId)
 {
-	rInfo.buffer = std::vector<uint8_t>(static_cast<uint8_t>(10));
+	rInfo.buffer = std::vector<uint8_t>(static_cast<uint8_t>(roomId));
 	char* responseToUser = nullptr;
 
 	// sending to all of the members of this room a LeaveRoomResponse
+	for (auto& [socket, requestHandle] : m_clients)
+	{
+		RoomMemberRequestHandler* memPtr = dynamic_cast<RoomMemberRequestHandler*>(requestHandle);
+		if (!memPtr)
+		{
+			continue;
+		}
+
+		RequestResult rResult = memPtr->handleRequest(rInfo);
+		requestHandle = rResult._newHandler;
+
+		responseToUser = t_helper::vectToChar(rResult._response);
+		sendData(socket, responseToUser, rResult._response.size());
+		delete responseToUser;
+	}
+}
+
+void Communicator::startGame(RequestInfo& rInfo, const int gameId)
+{
+	rInfo.buffer = std::vector<uint8_t>(static_cast<uint8_t>(gameId));
+	char* responseToUser = nullptr;
+
+	// sending to all of the members of this room a startGameResponse
 	for (auto& [socket, requestHandle] : m_clients)
 	{
 		RoomMemberRequestHandler* memPtr = dynamic_cast<RoomMemberRequestHandler*>(requestHandle);
@@ -232,4 +241,3 @@ char* Communicator::getPartFromSocket(const SOCKET sc, const int bytesNum, const
 	}
 	return data;
 }
-

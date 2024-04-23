@@ -53,6 +53,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\RoomData.cs" />
+    <Compile Include="GuiWindows\answerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GuiWindows\answerWindow.Designer.cs">
+      <DependentUpon>answerWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GuiWindows\GameWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GuiWindows\GameWindow.Designer.cs">
+      <DependentUpon>GameWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="GuiWindows\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +106,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\serverResponses.cs" />
+    <EmbeddedResource Include="GuiWindows\answerWindow.resx">
+      <DependentUpon>answerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GuiWindows\GameWindow.resx">
+      <DependentUpon>GameWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GuiWindows\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>

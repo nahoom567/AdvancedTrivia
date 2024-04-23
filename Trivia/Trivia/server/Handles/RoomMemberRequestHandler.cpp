@@ -40,11 +40,17 @@ RequestResult RoomMemberRequestHandler::getRoomState()
 		return RequestResult(JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse(0, 0,
 			std::vector<std::string>(), 0, 0)), m_handlerFactory.createMenuRequestFactory(m_user));
 	}
-	else
+	else if (m_roomManager.getRoom(m_roomId).getData().isActive == ROOM_WAITING_STATE)
 	{
 		RoomData rd = m_room.getData();
-		return RequestResult(JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse(m_roomManager.getRoomState(rd.id), rd.isActive,
+		return RequestResult(JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse(m_roomManager.getRoomState(rd.id), false,
 			m_room.getAllUsers(), rd.numOfQuestionsInGame, rd.timePerQuestion)), this);
+	}
+	else if (m_roomManager.getRoom(m_roomId).getData().isActive == ROOM_GAME_STARTED)
+	{
+		RoomData rd = m_room.getData();
+		return RequestResult(JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse(1, true,
+			m_room.getAllUsers(), rd.numOfQuestionsInGame, rd.timePerQuestion)), m_handlerFactory.createGameRequestHandler(m_user));
 	}
 }
 

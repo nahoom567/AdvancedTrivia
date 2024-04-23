@@ -5,6 +5,8 @@
 #include "Managers/Room/RoomManager.h"
 #include "server/Infrastructure/RequestHandlerFactory.h"
 
+#define ROOM_WAITING_STATE 1
+#define ROOM_GAME_STARTED 2
 class RequestHandlerFactory;
 
 class RoomMemberRequestHandler : public IRequestHandler

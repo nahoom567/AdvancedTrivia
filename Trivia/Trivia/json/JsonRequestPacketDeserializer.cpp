@@ -40,6 +40,12 @@ CreateRoomRequest JsonResponsePacketDeserializer::deserializeCreateRoomRequest(c
 	return CreateRoomRequest(roomName, maxUsers, questionCount, answerTimeout);
 }
 
+SubmitAnswerRequest JsonResponsePacketDeserializer::deserializeSubminAnswerRequest(const std::vector<unsigned char>& buffer)
+{
+	nlohmann::json data = getJson(buffer);
+	return SubmitAnswerRequest(data["answerId"]);
+}
+
 int JsonResponsePacketDeserializer::deserializeCreateRoomResponse(const std::vector<unsigned char>& buffer)
 {
 	nlohmann::json data = getJson(buffer);

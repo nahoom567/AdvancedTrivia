@@ -136,7 +136,7 @@ namespace sandboxGUI
 
 
         public uint status;
-        public int hasGameBegun;
+        public bool hasGameBegun;
         public List<string> players;
         public uint questionsCount;
         public uint answerTimeout;
@@ -150,5 +150,48 @@ namespace sandboxGUI
         }
 
         public uint status;
+    }
+
+    struct StartGameResponse
+    {
+        public StartGameResponse(dynamic jsonObject)
+        {
+            status = jsonObject.status;
+        }
+
+        public uint status;
+    }
+
+    struct GetQuestionResponse
+    {
+        public GetQuestionResponse(dynamic jsonObject)
+        {
+            status = jsonObject.status;
+            question = jsonObject.question;
+            answers = new Dictionary<uint, string>();
+
+            foreach (var answer in jsonObject.map_answer)
+            {
+                uint key = answer.First;
+                string value = answer.Last;
+                answers.Add(key, value);
+            }
+        }
+
+        public uint status;
+        public string question;
+        public Dictionary<uint, string> answers;
+    }
+
+    struct SubmitAnswerResponse
+    {
+        public SubmitAnswerResponse(dynamic jsonObject)
+        {
+            status = jsonObject.status;
+            correctAnswerId = jsonObject.correctAnswerId;
+        }
+
+        public uint status;
+        public uint correctAnswerId;
     }
 }

@@ -91,6 +91,10 @@ namespace sandboxGUI.GuiWindows
         #region sideBarButtons
         private void createRoom_Click(object sender, EventArgs e)
         {
+            if(lockedSideBar)
+            {
+                return;
+            }
             m_checkingForRooms = false;
             m_checkingForNewPlayers = false;
             
@@ -105,6 +109,10 @@ namespace sandboxGUI.GuiWindows
         }
         private void joinRoom_Click(object sender, EventArgs e)
         {
+            if(lockedSideBar)
+            {
+                return;
+            }
             m_checkingForRooms = false;
             m_checkingForNewPlayers = false;
 
@@ -121,6 +129,10 @@ namespace sandboxGUI.GuiWindows
         }
         private void statistics_Click(object sender, EventArgs e)
         {
+            if(lockedSideBar)
+            {
+                return;
+            }
             m_checkingForRooms = false;
             m_checkingForNewPlayers = false;
 
@@ -133,6 +145,10 @@ namespace sandboxGUI.GuiWindows
         }
         private void exitButton_Click(object sender, EventArgs e)
         {
+            if(lockedSideBar)
+            {
+                return;
+            }
             m_checkingForRooms = false;
             m_checkingForNewPlayers = false;
 
@@ -249,6 +265,8 @@ namespace sandboxGUI.GuiWindows
         
         private void useResponse(GetRoomStateResponse res)
         {
+            questions = res.questionsCount;
+            TimePerQuestions = res.answerTimeout;
             this.numOfQuestion.Text = "the num of questions: " + res.questionsCount;
             this.timePerQuestion.Text = "the time per question: " + res.answerTimeout;
             
@@ -258,10 +276,33 @@ namespace sandboxGUI.GuiWindows
                 startingPanel.Visible = true;
                 startingPanel.BringToFront();
                 m_checkingForNewPlayers = false;
+                lockedSideBar = false;
+                return;
+            }
+
+            if(res.hasGameBegun)
+            {
+                this.Invoke((MethodInvoker)switchGameView);
+                lockedSideBar = false;
+                return;
             }
 
             updatePlayerList(res.players);
 
+        }
+
+        private void switchGameView()
+        {
+            m_checkingForNewPlayers = false;
+            GameWindow gameWin = new GameWindow(m_client, questions, TimePerQuestions);
+
+            gameWin.Size = this.Size;
+            gameWin.StartPosition = FormStartPosition.Manual;
+            gameWin.Location = this.Location;
+
+            this.Hide();
+            gameWin.ShowDialog();
+            this.Show();
         }
 
         private void updatePlayerList(List<string> players)
@@ -451,6 +492,7 @@ namespace sandboxGUI.GuiWindows
 
         private void refreshPlayers(int id)
         {
+            lockedSideBar = true;
             if (creatorOrJoiner)
             {
                 close_leaveRoom.Text = "Close Room";
@@ -458,6 +500,7 @@ namespace sandboxGUI.GuiWindows
             else
             {
                 close_leaveRoom.Text = "Leave Room";
+                this.startGame.Hide();
             }
 
             m_updatePlayers = new Thread(() => displayPlayersInRoom(id)); ;
@@ -492,6 +535,22 @@ namespace sandboxGUI.GuiWindows
             }
         }
 
+        private void startGame_Click(object sender, EventArgs e)
+        {
+            m_client.SendData(Serialization.serialize("", (int)ResponseCode.startGame));
+
+            if (Serialization.deserialize(m_client.reciveData()) is StartGameResponse createRoomResponse)
+            {
+                if (createRoomResponse.status != 0)
+                {
+                    switchGameView();
+                }
+            }
+
+        }
+
+
+
 
         private String m_userName;
         private static ServerConnector m_client;
@@ -508,6 +567,10 @@ namespace sandboxGUI.GuiWindows
 
         private static int s_adminConnection = 1;
 
+        private uint questions = 0;
+        private uint TimePerQuestions = 0;
+
+        private bool lockedSideBar = false;
     }
 
     public class TitleItem

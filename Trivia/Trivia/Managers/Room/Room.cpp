@@ -10,7 +10,10 @@ void Room::addUser(const LoggedUser& logUser)
 {
 	try
 	{
-		m_users.push_back(logUser);
+		if (m_users.size() <= m_metadata.maxPlayers)
+		{
+			m_users.push_back(logUser);
+		}
 	}
 	catch (...)
 	{
@@ -43,4 +46,9 @@ std::vector<std::string> Room::getAllUsers()
 RoomData Room::getData() const
 {
 	return m_metadata;
+}
+
+void Room::setIsActive(int val)
+{
+	m_metadata.isActive = val;
 }

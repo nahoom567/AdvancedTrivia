@@ -12,6 +12,5 @@ public:
 	};
 
 	std::vector<unsigned char> _response;
-	// an abstract class is a class that cannot be instantiated, which why for now this will not work
 	IRequestHandler* _newHandler;
 };

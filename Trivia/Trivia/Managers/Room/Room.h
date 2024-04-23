@@ -31,6 +31,8 @@ public:
 	void removeUser(const LoggedUser& logUser);
 	std::vector<std::string> getAllUsers();
 	RoomData getData() const;
+	void setIsActive(int val);
+
 private:
 	RoomData m_metadata;
 	std::vector<LoggedUser> m_users;

@@ -133,6 +133,53 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(const
 	return serializeStatusOnlyResponse(response.status, ResponseCode::leaveRoom);
 }
 
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(const GetGameResultsResponse& response)
+{
+	nlohmann::json data = {
+		{R"(status)", response.status}
+	};
+
+	for (auto& result : response.results)
+	{
+		nlohmann::json temp = {
+			{R"(averageAnswerTime)", result.averageAnswerTime},
+			{R"(correctAnswerCount)", result.correctAnswerCount},
+			{R"(username)", result.username},
+			{R"(wrongAnswerCount)", result.wrongAnswerCount},
+		};
+		data["results"].emplace_back(temp);
+	}
+	
+	return getBuff(data, ResponseCode::getGameResults);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(const SubmitAnswerResponse& response)
+{
+	nlohmann::json data = {
+		{R"(status)", response.status},
+		{R"(correctAnswerId)", response.correctAnswerId}
+	};
+
+	return getBuff(data, ResponseCode::submitAnswers);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(const GetQuestionResponse& response)
+{
+	nlohmann::json data = {
+		{R"(status)", response.status},
+		{R"(question)", response.question}
+	};
+
+	data["map_answer"] = response.answers;
+
+	return getBuff(data, ResponseCode::getQuestions);
+}
+
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(const LeaveGameResponse& response)
+{
+	return serializeStatusOnlyResponse(response.status, ResponseCode::leaveGame);
+}
+
 std::vector<unsigned char> JsonResponsePacketSerializer::getBuff(const nlohmann::json& data, int code)
 {
 	std::string msg = data.dump();
